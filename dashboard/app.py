@@ -1,6 +1,6 @@
 import streamlit as st
 import joblib
-import numpy as np
+import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 
@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 # ----------------------------
-# Custom Title
+# Title
 # ----------------------------
 st.markdown(
     """
@@ -21,7 +21,7 @@ st.markdown(
     🚨 Silent User Frustration Detector
     </h1>
     <p style='text-align: center; font-size:18px;'>
-    Explainable Machine Learning System using Random Forest + SHAP
+    Explainable ML System using Random Forest + SHAP
     </p>
     """,
     unsafe_allow_html=True
@@ -30,11 +30,21 @@ st.markdown(
 st.markdown("---")
 
 # ----------------------------
-# Load Model
+# Load Model + Feature Names
 # ----------------------------
 model = joblib.load("models/frustration_model.pkl")
+feature_names = [
+    "session_duration",
+    "num_clicks",
+    "error_count",
+    "rapid_clicks",
+    "page_revisits",
+    "scroll_depth",
+    "idle_time"
+]
 
-# Create SHAP Explainer
+
+# SHAP Explainer
 explainer = shap.TreeExplainer(model)
 
 # ----------------------------
@@ -51,13 +61,14 @@ num_clicks = st.sidebar.slider("Total Clicks", 0, 100, 20)
 scroll_depth = st.sidebar.slider("Scroll Depth (%)", 0, 100, 40)
 
 # ----------------------------
-# Prediction Section
+# Prediction
 # ----------------------------
 st.header("📊 Prediction Result")
 
 if st.button("Predict Frustration"):
 
-    input_data = np.array([[
+    # Create input in correct format
+    input_values = [
         error_count,
         page_revisits,
         idle_time,
@@ -65,13 +76,14 @@ if st.button("Predict Frustration"):
         session_duration,
         num_clicks,
         scroll_depth
-    ]])
+    ]
 
+    input_data = pd.DataFrame([input_values], columns=feature_names)
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]
 
     # ----------------------------
-    # Styled Result Card
+    # Result UI
     # ----------------------------
     if prediction == 1:
         st.markdown(

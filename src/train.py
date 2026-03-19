@@ -17,7 +17,7 @@ def train_model():
     y = df["frustrated"]
 
     # 3. Define Model
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model = RandomForestClassifier(class_weight="balanced")
 
     # 4. Cross Validation
     cv_scores = cross_val_score(model, X, y, cv=5)
@@ -62,8 +62,10 @@ def train_model():
     # 10. Save Model
     os.makedirs("model", exist_ok=True)
     joblib.dump(model, "models/frustration_model.pkl")
+    joblib.dump(X.columns.tolist(), "models/feature_names.pkl")
 
     print("Model saved successfully!")
+    print(X.columns)
 
     return model
 
