@@ -4,17 +4,15 @@ import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 
-# ----------------------------
 # Page Configuration
-# ----------------------------
+
 st.set_page_config(
     page_title="Silent User Frustration Detector",
     layout="wide"
 )
 
-# ----------------------------
 # Title
-# ----------------------------
+
 st.markdown(
     """
     <h1 style='text-align: center; color: #FF4B4B;'>
@@ -29,9 +27,8 @@ st.markdown(
 
 st.markdown("---")
 
-# ----------------------------
 # Load Model + Feature Names
-# ----------------------------
+
 model = joblib.load("models/frustration_model.pkl")
 feature_names = [
     "session_duration",
@@ -47,9 +44,8 @@ feature_names = [
 # SHAP Explainer
 explainer = shap.TreeExplainer(model)
 
-# ----------------------------
 # Sidebar Inputs
-# ----------------------------
+
 st.sidebar.header("🧠 User Behavior Inputs")
 
 error_count = st.sidebar.slider("Error Count", 0, 10, 1)
@@ -60,9 +56,8 @@ session_duration = st.sidebar.slider("Session Duration (seconds)", 0, 1000, 200)
 num_clicks = st.sidebar.slider("Total Clicks", 0, 100, 20)
 scroll_depth = st.sidebar.slider("Scroll Depth (%)", 0, 100, 40)
 
-# ----------------------------
 # Prediction
-# ----------------------------
+
 st.header("📊 Prediction Result")
 
 if st.button("Predict Frustration"):
@@ -82,9 +77,8 @@ if st.button("Predict Frustration"):
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]
 
-    # ----------------------------
     # Result UI
-    # ----------------------------
+
     if prediction == 1:
         st.markdown(
             f"""
@@ -116,9 +110,8 @@ if st.button("Predict Frustration"):
 
     st.markdown("---")
 
-    # ----------------------------
     # SHAP Explanation
-    # ----------------------------
+
     st.subheader("🔍 Why This Prediction?")
 
     shap_values = explainer(input_data)
