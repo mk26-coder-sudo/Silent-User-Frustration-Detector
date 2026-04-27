@@ -4,17 +4,15 @@ import pandas as pd
 import shap
 import matplotlib.pyplot as plt
 
-# ----------------------------
 # Page Configuration
-# ----------------------------
+
 st.set_page_config(
     page_title="Silent User Frustration Detector",
     layout="wide"
 )
 
-# ----------------------------
 # Title
-# ----------------------------
+
 st.markdown(
     """
     <h1 style='text-align: center; color: #FF4B4B;'>
@@ -29,9 +27,8 @@ st.markdown(
 
 st.markdown("---")
 
-# ----------------------------
 # Load Model + Feature Names
-# ----------------------------
+
 model = joblib.load("models/frustration_model.pkl")
 feature_names = [
     "session_duration",
@@ -45,9 +42,8 @@ feature_names = [
 
 explainer = shap.TreeExplainer(model)
 
-# ----------------------------
 # Sidebar Inputs
-# ----------------------------
+
 st.sidebar.header("🧠 User Behavior Inputs")
 
 error_count = st.sidebar.slider("Error Count", 0, 10, 1)
@@ -58,6 +54,7 @@ session_duration = st.sidebar.slider("Session Duration (seconds)", 0, 1000, 200)
 num_clicks = st.sidebar.slider("Total Clicks", 0, 100, 20)
 scroll_depth = st.sidebar.slider("Scroll Depth (%)", 0, 100, 40)
 
+<<<<<<< HEAD
 # ----------------------------
 # Threshold Slider (NEW)
 # ----------------------------
@@ -73,8 +70,10 @@ threshold = st.sidebar.slider(
 )
 
 # ----------------------------
+=======
+>>>>>>> c2ee2ac1565eae1c90fe79f8e628498f11d475d0
 # Prediction
-# ----------------------------
+
 st.header("📊 Prediction Result")
 
 if st.button("Predict Frustration"):
@@ -92,6 +91,7 @@ if st.button("Predict Frustration"):
     input_data = pd.DataFrame([input_values], columns=feature_names)
     probability = model.predict_proba(input_data)[0][1]
 
+<<<<<<< HEAD
     # Use threshold instead of default 0.5
     prediction = int(probability >= threshold)
 
@@ -149,6 +149,10 @@ if st.button("Predict Frustration"):
     # Plain English Reason (NEW)
     st.markdown("---")
     st.subheader("💬 What's driving this?")
+=======
+    # Result UI
+
+>>>>>>> c2ee2ac1565eae1c90fe79f8e628498f11d475d0
     if prediction == 1:
         st.info(f"⚠️ This user's frustration is mainly driven by **{reason}**.")
     else:
@@ -156,14 +160,23 @@ if st.button("Predict Frustration"):
 
     st.markdown("---")
 
+<<<<<<< HEAD
     # ----------------------------
     # SHAP Explanation (existing)
     # ----------------------------
     st.subheader("🔍 Why This Prediction? (SHAP)")
+=======
+    # SHAP Explanation
+
+    st.subheader("🔍 Why This Prediction?")
+
+    shap_values = explainer(input_data)
+>>>>>>> c2ee2ac1565eae1c90fe79f8e628498f11d475d0
 
     fig, ax = plt.subplots()
     shap.plots.waterfall(shap_values[0, :, 1], show=False)
     st.pyplot(fig)
+<<<<<<< HEAD
 
     st.markdown("---")
 
@@ -187,3 +200,5 @@ if st.button("Predict Frustration"):
         "RF chosen as primary for its per-user SHAP explainability — "
         "more suitable for real-world non-linear behavioral patterns."
     )
+=======
+>>>>>>> c2ee2ac1565eae1c90fe79f8e628498f11d475d0
