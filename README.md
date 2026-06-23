@@ -61,8 +61,8 @@ Adjust the decision threshold (0.3 → 0.7) and watch Precision and Recall updat
 
 | Model | Accuracy | F1 (Frustrated) | Interpretable? |
 |---|---|---|---|
-| Logistic Regression | 88% | 0.81 | ✅ Coefficients |
-| **Random Forest** | **94%** | **0.90** | ✅ SHAP |
+| **Logistic Regression** | **98%** | **0.97** | ✅ Coefficients |
+| Random Forest | 94% | 0.90 | ✅ SHAP |
 
 Random Forest was selected — not by default — but because it outperforms Logistic Regression on non-linear behavioral patterns while remaining fully explainable through SHAP.
 
