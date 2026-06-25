@@ -30,7 +30,7 @@ This system detects **silent frustration in real time**, using behavioral signal
 | Model comparison (RF vs LR) | Principled model selection, not tutorial copying |
 | Threshold slider (Precision vs Recall) | Business tradeoff thinking |
 | Risk profile labels 🔴🟡🟢 | Product thinking, not just model demos |
-| Grounded synthetic data | Thresholds based on Nielsen Norman UX research |
+| Grounded synthetic data | Synthetic user sessions generated from realistic frustration-related behavioral patterns |
 
 ---
 
@@ -143,7 +143,7 @@ Preprocessing
         ↓
 Model Training
   ├── Random Forest  → 94% accuracy
-  └── Logistic Regression → 88% accuracy (baseline comparison)
+  └── Logistic Regression → 98% accuracy (baseline comparison)
         ↓
 Saved Model (joblib)
         ↓
